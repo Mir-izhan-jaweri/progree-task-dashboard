@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Task Dashboard // Control Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar__brand">
+      <span class="topbar__dot" id="connDot"></span>
+      <h1>TASK<span>//</span>DASHBOARD</h1>
+    </div>
+    <div class="topbar__stats" id="statsBar">
+      <div class="stat"><span class="stat__num" id="statTotal">0</span><span class="stat__label">total</span></div>
+      <div class="stat stat--todo"><span class="stat__num" id="statTodo">0</span><span class="stat__label">todo</span></div>
+      <div class="stat stat--progress"><span class="stat__num" id="statProgress">0</span><span class="stat__label">in progress</span></div>
+      <div class="stat stat--done"><span class="stat__num" id="statDone">0</span><span class="stat__label">done</span></div>
+    </div>
+  </header>
+
+  <main class="app">
+
+    <section class="composer" aria-label="Create a new task">
+      <span class="composer__prompt">&gt;</span>
+      <form id="taskForm" class="composer__form">
+        <input type="text" id="titleInput" placeholder="New task title..." required maxlength="200" autocomplete="off" />
+        <input type="text" id="descInput" placeholder="Description (optional)" autocomplete="off" />
+        <select id="priorityInput" title="Priority">
+          <option value="low">low</option>
+          <option value="medium" selected>medium</option>
+          <option value="high">high</option>
+        </select>
+        <input type="date" id="dueInput" title="Due date" />
+        <button type="submit" id="submitBtn">Add task</button>
+      </form>
+    </section>
+
+    <div class="toolbar">
+      <input type="search" id="searchInput" placeholder="Search tasks..." />
+      <div class="toolbar__filters" id="priorityFilters">
+        <button class="chip" data-priority="">all</button>
+        <button class="chip" data-priority="high">high</button>
+        <button class="chip" data-priority="medium">medium</button>
+        <button class="chip" data-priority="low">low</button>
+      </div>
+      <span class="toolbar__status" id="requestStatus" role="status" aria-live="polite"></span>
+    </div>
+
+    <section class="board" id="board">
+      <div class="column" data-status="todo">
+        <div class="column__head"><h2>To do</h2><span class="column__count" id="countTodo">0</span></div>
+        <div class="column__list" id="list-todo"></div>
+      </div>
+      <div class="column" data-status="in_progress">
+        <div class="column__head"><h2>In progress</h2><span class="column__count" id="countProgress">0</span></div>
+        <div class="column__list" id="list-in_progress"></div>
+      </div>
+      <div class="column" data-status="done">
+        <div class="column__head"><h2>Done</h2><span class="column__count" id="countDone">0</span></div>
+        <div class="column__list" id="list-done"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+  <!-- Edit modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Edit task</h3>
+      <form id="editForm">
+        <input type="hidden" id="editId" />
+        <label>Title
+          <input type="text" id="editTitle" required maxlength="200" />
+        </label>
+        <label>Description
+          <textarea id="editDesc" rows="3"></textarea>
+        </label>
+        <div class="modal__row">
+          <label>Status
+            <select id="editStatus">
+              <option value="todo">todo</option>
+              <option value="in_progress">in progress</option>
+              <option value="done">done</option>
+            </select>
+          </label>
+          <label>Priority
+            <select id="editPriority">
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high">high</option>
+            </select>
+          </label>
+        </div>
+        <label>Due date
+          <input type="date" id="editDue" />
+        </label>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--ghost" id="cancelEdit">Cancel</button>
+          <button type="button" class="btn btn--danger" id="deleteTaskBtn">Delete</button>
+          <button type="submit" class="btn btn--primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
